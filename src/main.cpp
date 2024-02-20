@@ -1,67 +1,56 @@
 #include <Arduino.h>
-#include <DHT.h>
-#include <DHT_U.h>
+#include "DHT.service.h"
+#include "SoilMoisture.service.h"
+#include "Humidifier.service.h"
+#include "WebServerESP32.service.h"
 
 #define DHT_PIN 4        // DHT sensor pin
 #define MOISTURE_PIN 5   // Moisture sensor pin
 #define HUMIDIFIER_PIN 6 // Humidifier relay pin
 
-DHT dht(DHT_PIN, DHT11);
+DHTSensor dhtSensor(DHT_PIN, DHT11);
+SoilMoistureSensor soilMoistureSensor(MOISTURE_PIN);
+Humidifier humidifier(HUMIDIFIER_PIN);
+WebServerESP32 webServer;
 
 void setup()
 {
   Serial.begin(115200);
-  Serial.println("Hello World!");
+  Serial.println("Plant watering system");
 
-  pinMode(MOISTURE_PIN, INPUT);
-  pinMode(HUMIDIFIER_PIN, OUTPUT);
-
-  dht.begin();
+  dhtSensor.begin();
+  soilMoistureSensor.begin();
+  webServer.begin();
 }
 
 void loop()
 {
-  Serial.println("5 second delay");
-  delay(5000);
-  Serial.println("Humidifier PRESS");
-  digitalWrite(HUMIDIFIER_PIN, HIGH);
   delay(1000);
-  Serial.println("Humidifier UNPRESS");
-  digitalWrite(HUMIDIFIER_PIN, LOW);
-  Serial.println("5 second delay");
+  Serial.println("1 second passed");
+  Serial.println("turn on humidifier");
+  humidifier.turnOn();
   delay(5000);
-  Serial.println("end of loop");
+  Serial.println("turn off humidifier");
+  humidifier.turnOff();
+  Serial.println("end");
 
-  // Wait a few seconds betw een measurements.
-  // delay(2000);
-  // todo: normalize the moisture value into a percentage. needs calibration
-  // const int moisture = analogRead(MOISTURE_PIN);
-  // Serial.println();
-  // Serial.print(F("Soil: "));
-  // Serial.print(moisture);
+  // Print ESP32 Local IP Address
+  // Humidifier Example usage
+  // humidifier.turnOn();
+  // delay(5000); // Keep the humidifier on for 5 seconds
+  // humidifier.turnOff();
+  // delay(10000); // Wait for 10 seconds before the next cycle
 
-  // // Reading temperature or humidity takes about 250 milliseconds!
-  // // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-  // float h = dht.readHumidity();
-  // // Read temperature as Celsius (the default)
-  // float t = dht.readTemperature();
+  // float temperature = dhtSensor.readTemperature();
+  // float humidity = dhtSensor.readHumidity();
+  // int soilMoisture = soilMoistureSensor.readMoistureLevel();
 
-  // // Check if any reads failed and exit early (to try again).
-  // if (isnan(h) || isnan(t))
-  // {
-  //   Serial.println(F("Failed to read from DHT sensor!"));
-  //   return;
-  // }
+  // Serial.print("Temperature: ");
+  // Serial.print(temperature);
+  // Serial.print("°C, Humidity: ");
+  // Serial.print(humidity);
+  // Serial.print("%, Soil Moisture: ");
+  // Serial.println(soilMoisture);
 
-  // // Compute heat index in Celsius (isFahreheit = false)
-  // float hic = dht.computeHeatIndex(t, h, false);
-
-  // Serial.print(F("Humidity: "));
-  // Serial.print(h);
-  // Serial.print(F("%  Temperature: "));
-  // Serial.print(t);
-  // Serial.print(F("°C  Heat index: "));
-  // Serial.print(hic);
-  // Serial.print(F("°C "));
-  // Serial.println();
+  // delay(2000); // Delay between readings
 }
