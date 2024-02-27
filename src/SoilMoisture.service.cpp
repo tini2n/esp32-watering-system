@@ -9,7 +9,12 @@ void SoilMoistureSensor::begin()
 
 int SoilMoistureSensor::readMoistureLevel()
 {
-    // Read the value from the sensor
     int moistureLevel = analogRead(_pin);
-    return moistureLevel;
+    Serial.println(moistureLevel);
+    moistureLevel = constrain(moistureLevel, 1300, 4095);
+
+    int moisturePercent = 100 - map(moistureLevel, 1300, 4095, 0, 100);
+    moisturePercent = constrain(moisturePercent, 0, 100);
+
+    return moisturePercent;
 }

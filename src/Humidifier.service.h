@@ -9,10 +9,10 @@ public:
     Humidifier(int pin);
     void turnOn();
     void turnOff();
+    void clickButton();
 
 private:
     int humidifierPin;
-    void clickButton();
 };
 
 #endif // HUMIDIFIER_H

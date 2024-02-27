@@ -4,7 +4,7 @@ Humidifier::Humidifier(int pin) : humidifierPin(pin)
 {
     pinMode(humidifierPin, OUTPUT);
     // Ensure the relay is in the OFF position initially
-    digitalWrite(humidifierPin, LOW);
+    digitalWrite(humidifierPin, HIGH);
 }
 
 void Humidifier::turnOn()
@@ -15,11 +15,13 @@ void Humidifier::turnOn()
 void Humidifier::turnOff()
 {
     clickButton();
+    delay(500); // Mimic pause between button presses
+    clickButton();
 }
 
 void Humidifier::clickButton()
 {
-    digitalWrite(humidifierPin, HIGH);
-    delay(200); // Mimic button press
     digitalWrite(humidifierPin, LOW);
+    delay(200); // Mimic button press
+    digitalWrite(humidifierPin, HIGH);
 }
