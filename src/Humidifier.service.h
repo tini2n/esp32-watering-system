@@ -7,9 +7,10 @@ class Humidifier
 {
 public:
     Humidifier(int pin);
+
     bool isOn = false;
-    bool toggleState(bool state);
-    
+    bool toggleState();
+
     void turnOn();
     void turnOff();
     void clickButton();

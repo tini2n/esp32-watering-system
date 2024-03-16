@@ -7,9 +7,24 @@ Humidifier::Humidifier(int pin) : humidifierPin(pin)
     digitalWrite(humidifierPin, HIGH);
 }
 
+bool Humidifier::toggleState()
+{
+    if (isOn)
+    {
+        turnOn();
+    }
+    else
+    {
+        turnOff();
+    }
+
+    return isOn;
+}
+
 void Humidifier::turnOn()
 {
     clickButton();
+    isOn = true;
 }
 
 void Humidifier::turnOff()
@@ -17,6 +32,7 @@ void Humidifier::turnOff()
     clickButton();
     delay(500); // Mimic pause between button presses
     clickButton();
+    isOn = false;
 }
 
 void Humidifier::clickButton()
