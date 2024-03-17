@@ -1,4 +1,4 @@
-#include "DHT.service.h"
+#include "DHT.h"
 
 DHTSensor::DHTSensor(uint8_t pin, uint8_t type) : dht(pin, type) {}
 

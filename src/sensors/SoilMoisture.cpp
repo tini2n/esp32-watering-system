@@ -1,4 +1,4 @@
-#include "SoilMoisture.service.h"
+#include "SoilMoisture.h"
 
 SoilMoistureSensor::SoilMoistureSensor(uint8_t pin) : _pin(pin) {}
 
@@ -10,7 +10,6 @@ void SoilMoistureSensor::begin()
 int SoilMoistureSensor::readMoistureLevel()
 {
     int moistureLevel = analogRead(_pin);
-    Serial.println(moistureLevel);
     moistureLevel = constrain(moistureLevel, 1300, 4095);
 
     int moisturePercent = 100 - map(moistureLevel, 1300, 4095, 0, 100);

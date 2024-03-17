@@ -10,6 +10,7 @@ class WebServerESP32
 {
 public:
     WebServerESP32(); // Constructor
+
     void begin();
     void updateSensorData(float temp, float hum, int soilMoist);
     void handleClient();
@@ -17,9 +18,11 @@ public:
 
 private:
     AsyncWebServer server;
+
     float temperature = 0;
     float humidity = 0;
     int soilMoisture = 0;
+
     String processor(const String &var); // Declare the processor function
 };
 

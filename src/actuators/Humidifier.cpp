@@ -1,4 +1,4 @@
-#include "Humidifier.service.h"
+#include "Humidifier.h"
 
 Humidifier::Humidifier(int pin) : humidifierPin(pin)
 {
@@ -23,12 +23,22 @@ bool Humidifier::toggleState()
 
 void Humidifier::turnOn()
 {
+    if (isOn)
+    {
+        return;
+    }
+
     clickButton();
     isOn = true;
 }
 
 void Humidifier::turnOff()
 {
+    if (!isOn)
+    {
+        return;
+    }
+
     clickButton();
     delay(500); // Mimic pause between button presses
     clickButton();
